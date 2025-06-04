@@ -71,15 +71,15 @@ SEED="/opt/qemu/seed.iso"
 if [ ! -f "$DISK" ]; then
     echo "Creating VM disk..."
     qemu-img convert -f qcow2 -O raw "$IMG" "$DISK"
-    qemu-img resize "$DISK" 1000G
+    qemu-img resize "$DISK" 32G
 fi
 
 # Start VM
 qemu-system-x86_64 \
     -enable-kvm \
     -cpu host \
-    -smp 8 \
-    -m 122880 \
+    -smp 4 \
+    -m 16384 \
     -drive file="$DISK",format=raw,if=virtio \
     -drive file="$SEED",format=raw,if=virtio \
     -netdev user,id=net0,hostfwd=tcp::2222-:22 \
